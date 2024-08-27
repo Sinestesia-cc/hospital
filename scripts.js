@@ -53,4 +53,74 @@ function onSelect() {
 
 function createHotspot(model, infoText) {
     // Crear una esfera pequeña como hotspot
-    const hotspotGeometry = new THREE
+    const hotspotGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+    const hotspotMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const hotspot = new THREE.Mesh(hotspotGeometry, hotspotMaterial);
+
+    // Posiciona el hotspot encima del modelo (puedes ajustar la posición)
+    hotspot.position.set(0, 0.5, 0);
+    model.add(hotspot);
+
+    // Guardar información del hotspot
+    hotspot.userData.infoText = infoText;
+    hotspots.push(hotspot);
+
+    // Añadir evento de clic
+    hotspot.onClick = function() {
+        showTooltip(infoText);
+    };
+}
+
+function showTooltip(text) {
+    tooltip.innerText = text;
+    tooltip.style.display = 'block';
+}
+
+function hideTooltip() {
+    tooltip.style.display = 'none';
+}
+
+function selectModel(modelId) {
+    currentModel = modelId;
+}
+
+function animate() {
+    renderer.setAnimationLoop(render);
+}
+
+function render() {
+    reticle.visible = false;
+    const session = renderer.xr.getSession();
+
+    if (session) {
+        const frame = renderer.xr.getFrame();
+        const referenceSpace = renderer.xr.getReferenceSpace();
+        const viewerPose = frame.getViewerPose(referenceSpace);
+
+        if (viewerPose) {
+            const hitTestResults = frame.getHitTestResults(session.requestHitTestSource());
+
+            if (hitTestResults.length > 0) {
+                const hit = hitTestResults[0];
+                const pose = hit.getPose(referenceSpace);
+
+                reticle.visible = true;
+                reticle.matrix.fromArray(pose.transform.matrix);
+            }
+        }
+    }
+
+    // Detectar si un hotspot fue seleccionado
+    if (controller) {
+        raycaster.setFromCamera({ x: 0, y: 0 }, camera);
+        const intersects = raycaster.intersectObjects(hotspots);
+
+        if (intersects.length > 0) {
+            intersects[0].object.onClick();
+        } else {
+            hideTooltip();
+        }
+    }
+
+    renderer.render(scene, camera);
+}
