@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>AR Model1 Test</title>
+  <title>AR y VR Model1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -11,17 +11,17 @@
   </style>
 </head>
 <body>
-  <a-scene embedded arjs>
+  <a-scene embedded arjs vr-mode-ui="enabled: true" renderer="antialias: true; colorManagement: true;">
     <a-assets>
       <a-asset-item id="model1" src="models/model1.glb"></a-asset-item>
     </a-assets>
 
-    <!-- Utiliza el marcador Hiro para cargar el modelo -->
+    <!-- Cargar el modelo en AR y habilitar VR -->
     <a-marker preset="hiro">
-      <a-entity gltf-model="#model1" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
+      <a-entity id="model" gltf-model="#model1" scale="0.5 0.5 0.5" position="0 0 0"></a-entity>
     </a-marker>
 
-    <a-entity camera></a-entity>
+    <a-entity camera position="0 1.6 0"></a-entity>
   </a-scene>
 </body>
 </html>
