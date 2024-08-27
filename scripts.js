@@ -1,8 +1,5 @@
-let currentModel = 'model1';
-let scene, camera, renderer;
-let reticle, controller;
-let models = {};
-let tooltip = document.getElementById('tooltip');
+let scene, camera, renderer, reticle;
+let controller;
 
 init();
 animate();
@@ -11,43 +8,45 @@ function init() {
     // Configuración básica de Three.js
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
-    
+
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
     document.body.appendChild(renderer.domElement);
 
-    // Detección de superficie
+    // Crear el retículo para la detección de superficies
     const geometry = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshBasicMaterial({ color: 0x0f9b0f });
     reticle = new THREE.Mesh(geometry, material);
     reticle.visible = false;
     scene.add(reticle);
-    
+
+    // Configurar el controlador XR para interactuar
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', onSelect);
     scene.add(controller);
 
-    // Carga de modelos
-    const loader = new THREE.GLTFLoader();
-    loader.load('models/model1.glb', (gltf) => { models['model1'] = gltf.scene; });
-    loader.load('models/model2.glb', (gltf) => { models['model2'] = gltf.scene; });
-    loader.load('models/model3.glb', (gltf) => { models['model3'] = gltf.scene; });
-
+    // Añadir un botón VR para activar la AR
     document.body.appendChild(VRButton.createButton(renderer));
+
+    window.addEventListener('resize', onWindowResize);
 }
 
 function onSelect() {
     if (reticle.visible) {
-        const model = models[currentModel].clone();
-        model.position.setFromMatrixPosition(reticle.matrix);
-        model.scale.set(0.5, 0.5, 0.5);  // Ajusta el tamaño del modelo si es necesario
-        scene.add(model);
+        const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const cube = new THREE.Mesh(geometry, material);
+
+        cube.position.setFromMatrixPosition(reticle.matrix);
+        scene.add(cube);
     }
 }
 
-function selectModel(modelId) {
-    currentModel = modelId;
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
@@ -57,23 +56,21 @@ function animate() {
 function render() {
     reticle.visible = false;
 
-    if (renderer.xr.isPresenting) {
-        const session = renderer.xr.getSession();
-        const viewerSpace = renderer.xr.getReferenceSpace();
-        const viewerPose = session.getViewerPose(viewerSpace);
+    const session = renderer.xr.getSession();
 
-        if (viewerPose) {
-            const hitTestSource = session.requestHitTestSource({ space: viewerSpace });
+    if (session) {
+        const referenceSpace = renderer.xr.getReferenceSpace();
+        const viewerPose = session.requestAnimationFrame;
+        const hitTestSource = session.requestHitTestSource({ space: referenceSpace });
 
-            if (hitTestSource) {
-                const hitTestResults = session.getHitTestResults(hitTestSource);
-                if (hitTestResults.length > 0) {
-                    const hit = hitTestResults[0];
-                    const pose = hit.getPose(viewerSpace);
+        if (hitTestSource) {
+            const hitTestResults = session.getHitTestResults(hitTestSource);
+            if (hitTestResults.length > 0) {
+                const hit = hitTestResults[0];
+                const pose = hit.getPose(referenceSpace);
 
-                    reticle.visible = true;
-                    reticle.matrix.fromArray(pose.transform.matrix);
-                }
+                reticle.visible = true;
+                reticle.matrix.fromArray(pose.transform.matrix);
             }
         }
     }

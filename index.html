@@ -3,33 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Models with Hotspots</title>
+    <title>AR Test</title>
     <style>
         body { margin: 0; overflow: hidden; }
-        button { position: absolute; top: 10px; left: 10px; z-index: 1; }
-        .tooltip {
-            position: absolute;
-            background-color: #fff;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 2;
-        }
     </style>
 </head>
 <body>
-    <button onclick="selectModel('model1')">Modelo 1</button>
-    <button onclick="selectModel('model2')">Modelo 2</button>
-    <button onclick="selectModel('model3')">Modelo 3</button>
-
-    <div id="tooltip" class="tooltip"></div>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@webxr-input-profiles/motion-controllers@1.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/webxr/VRButton.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/webxr/XRControllerModelFactory.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>
