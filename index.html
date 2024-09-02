@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Three.js WebXR AR App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>Three.js WebXR AR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <style>
-    body, html { margin: 0; height: 100%; overflow: hidden; touch-action: none; }
-    #ar-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .arrow-button {
-      position: absolute; top: 50%; width: 50px; height: 50px;
-      background-color: rgba(255, 255, 255, 0.5); border: none; border-radius: 50%;
-      font-size: 24px; cursor: pointer; transform: translateY(-50%);
+    body { margin: 0; overflow: hidden; }
+    .button {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      padding: 10px 20px; background: #333; color: #fff; border: none; cursor: pointer;
     }
     #left-arrow { left: 10px; }
     #right-arrow { right: 10px; }
   </style>
 </head>
 <body>
-  <div id="ar-container">
-    <button id="left-arrow" class="arrow-button">&#9664;</button>
-    <button id="right-arrow" class="arrow-button">&#9654;</button>
-  </div>
+  <div id="ar-container"></div>
+  <button id="left-arrow" class="button">&#9664;</button>
+  <button id="right-arrow" class="button">&#9654;</button>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/webxr/ARButton.js"></script>
   <script src="app.js"></script>
