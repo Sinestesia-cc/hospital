@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Three.js WebXR AR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <style>
-    body { margin: 0; overflow: hidden; }
-    .button {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      padding: 10px 20px; background: #333; color: #fff; border: none; cursor: pointer;
-    }
-    #left-arrow { left: 10px; }
-    #right-arrow { right: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markerless AR with Three.js</title>
 </head>
 <body>
-  <div id="ar-container"></div>
-  <button id="left-arrow" class="button">&#9664;</button>
-  <button id="right-arrow" class="button">&#9654;</button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/webxr/ARButton.js"></script>
-  <script src="app.js"></script>
+    <script src="https://unpkg.com/three@0.132.2/build/three.min.js"></script>
+    <script src="https://unpkg.com/@ar-js-org/ar.js/three.js/build/ar-threex.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
