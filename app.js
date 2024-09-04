@@ -25,8 +25,8 @@ window.onload = function () {
     nextButton.addEventListener('click', () => switchModel(1));
 
     // Initialize AR
-    const arSystem = document.querySelector('a-scene').systems['arjs'];
-    arSystem.arReady.then(() => {
+    const scene = document.querySelector('a-scene');
+    scene.addEventListener('loaded', function () {
         modelContainer.setAttribute('visible', 'true');
     });
 };
